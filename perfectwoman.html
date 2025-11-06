@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портрет Ідеальної Жінки</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf8;
+            color: #333;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .tab-button.active {
+            border-bottom-color: #a16207;
+            color: #a16207;
+            font-weight: 600;
+        }
+        .gallery-button {
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .gallery-button.active {
+            background-color: #a16207;
+            color: white;
+            border-color: #a16207;
+        }
+        details > summary {
+            cursor: pointer;
+            padding: 1rem;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        details > summary:hover {
+            background-color: #e5e7eb;
+        }
+        details[open] > summary {
+            background-color: #e5e7eb;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        /* Додамо стиль для кращого відображення фото */
+        #gallery-image {
+            aspect-ratio: 4 / 3; /* Зберігаємо співвідношення сторін для фото */
+        }
+        @media (min-width: 768px) {
+            #gallery-image {
+                aspect-ratio: auto; /* Повертаємо до гнучкого на великих екранах */
+            }
+            .aspect-w-4.aspect-h-3 {
+                aspect-ratio: 4 / 3;
+            }
+        }
+        
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Портрет Ідеальної Жінки</h1>
+            <p class="text-lg text-gray-600">Астрологічний аналіз та візуалізація</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <!-- Ключові Енергії та Вік/Знаки -->
+            <section class="lg:grid lg:grid-cols-3 lg:gap-8">
+                
+                <!-- Лівa колонка: Енергії -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm mb-6 lg:mb-0">
+                    <h2 class="text-2xl font-bold mb-4">Ключові Енергії (Її "Коктейль")</h2>
+                    <p class="text-gray-600 mb-5">Ти шукаєш унікальне поєднання трьох, на перший погляд, непоєднуваних якостей. Це не просто "бонуси", а обов'язкові вимоги твоєї натальної карти.</p>
+
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                            <button id="tab-btn-aq" class="tab-button active" onclick="showTab('aq')">Енергія Водолія ♒︎</button>
+                            <button id="tab-btn-pi" class="tab-button" onclick="showTab('pi')">Енергія Риб ♓︎</button>
+                            <button id="tab-btn-ca" class="tab-button" onclick="showTab('ca')">Енергія Козерога ♑︎</button>
+                        </nav>
+                    </div>
+
+                    <div class="mt-4">
+                        <div id="tab-content-aq" class="tab-content space-y-2">
+                            <h3 class="text-lg font-semibold text-blue-600">Інтелект та Дружба</h3>
+                            <p>Вона — твій найкращий <strong>друг</strong>, <strong>розумна</strong>, незалежна, оригінальна, цінує свободу (свою і твою). Це твій "магніт", те, що тебе приваблює на рівні "хімії".</p>
+                        </div>
+                        <div id="tab-content-pi" class="tab-content space-y-2" style="display: none;">
+                            <h3 class="text-lg font-semibold text-purple-600">Емпатія та Глибина</h3>
+                            <p>Вона — <strong>чутлива</strong> "споріднена душа", має глибоку інтуїцію, м'яка, співчутлива і може *відчувати* тебе, а не лише говорити з тобою. Це "фільтр" твоїх останніх градусів.</p>
+                        </div>
+                        <div id="tab-content-ca" class="tab-content space-y-2" style="display: none;">
+                            <h3 class="text-lg font-semibold text-gray-700">Надійність та Амбіції</h3>
+                            <p>Вона — "жінка-CEO", <strong>амбітна</strong>, <strong>надійна</strong>, практична, емоційно <strong>зріла</strong> і відповідальна. Це твій "фундамент безпеки", вимога твого Місяця.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Права колонка: Вік та Знаки -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                        <h3 class="text-lg font-semibold text-gray-500 mb-1">Ідеальний Вік</h3>
+                        <p class="text-5xl font-bold text-amber-800">33-35+</p>
+                        <p class="text-sm text-gray-600 mt-2">Твій Місяць у Козерозі вимагає <strong>зрілості</strong>. Тобі потрібен рівний партнер, а не учень.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-500 mb-3">Пріоритетні Знаки</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center"><span class="text-2xl w-8">♑︎</span><span class="font-semibold ml-2">Козеріг</span><span class="ml-auto text-sm text-gray-500">(Надійність)</span></li>
+                            <li class="flex items-center"><span class="text-2xl w-8">♒︎</span><span class="font-semibold ml-2">Водолій</span><span class="ml-auto text-sm text-gray-500">(Інтелект)</span></li>
+                            <li class="flex items-center"><span class="text-2xl w-8">♓︎</span><span class="font-semibold ml-2">Риби</span><span class="ml-auto text-sm text-gray-500">(Емпатія)</span></li>
+                            <li class="flex items-center"><span class="text-2xl w-8">♎︎</span><span class="font-semibold ml-2">Терези</span><span class="ml-auto text-sm text-gray-500">(Партнерство)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Радар-чарт -->
+            <section class="bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-2xl font-bold mb-4 text-center">Візуальний Профіль: Ідеальний Баланс</h2>
+                <p class="text-gray-600 mb-5 text-center max-w-2xl mx-auto">Твоя карта вимагає не просто однієї якості, а високого рівня у всіх ключових сферах одночасно. Це візуалізація твого "ідеального" поєднання.</p>
+                <div class="chart-container">
+                    <canvas id="idealProfileChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Галерея -->
+            <section class="bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-2xl font-bold mb-5 text-center">Візуальні Архетипи</h2>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
+                    <button id="gallery-btn-suit" class="gallery-button active" onclick="showImage('suit')">Офіційний</button>
+                    <button id="gallery-btn-casual" class="gallery-button" onclick="showImage('casual')">Кежуал</button>
+                    <button id="gallery-btn-home" class="gallery-button" onclick="showImage('home')">Домашній</button>
+                    <button id="gallery-btn-beach" class="gallery-button" onclick="showImage('beach')">Пляжний</button>
+                    <button id="gallery-btn-evening" class="gallery-button" onclick="showImage('evening')">Вечірній</button>
+                    <button id="gallery-btn-sport" class="gallery-button" onclick="showImage('sport')">Спортзал</button>
+                </div>
+                <div class="w-full max-w-2xl mx-auto bg-gray-100 rounded-lg overflow-hidden aspect-w-4 aspect-h-3">
+                    <!-- Оновлений src та alt для початкового зображення -->
+                    <img id="gallery-image" src="images/suit.jpg" 
+                         alt="Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом." 
+                         class="w-full h-full object-cover">
+                </div>
+                <!-- Оновлений початковий підпис -->
+                <p id="gallery-caption" class="text-center text-gray-600 mt-3 italic">Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом.</p>
+            </section>
+
+            <!-- Де Шукати -->
+            <section>
+                <h2 class="text-2xl font-bold mb-5 text-center">Де Шукати: Місця Перетину Енергій</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-green-50 border border-green-200 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-green-800 mb-3">Шукати тут ✅</h3>
+                        <p class="text-green-700 mb-4">Там, де "Розум + Амбіції + Емпатія" зустрічаються:</p>
+                        <ul class="list-disc list-inside space-y-2 text-green-700">
+                            <li><strong>Професійні/Бізнес-заходи:</strong> Конференції, нетворкінги, IT-тусовки.</li>
+                            <li><strong>Інтелектуальні Івенти:</strong> Лекції з психології, філософії, мистецтва.</li>
+                            <li><strong>Творчі та Волонтерські Проекти:</strong> Поєднують емпатію та надійність.</li>
+                            <li><strong>Елітні курси або клуби:</strong> Місця, де люди свідомо розвиваються.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-red-800 mb-3">Точно НЕ шукати ❌</h3>
+                        <p class="text-red-700 mb-4">У суто розважальних, галасливих місцях:</p>
+                        <ul class="list-disc list-inside space-y-2 text-red-700">
+                            <li>Нічні клуби, гучні бари та вечірки.</li>
+                            <li>Місця, де головна мета — виключно розваги без інтелектуального чи кар'єрного навантаження.</li>
+                            <li>Тут важко знайти необхідну тобі "козерожу" надійність.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Детальний Аналіз -->
+            <section class="max-w-4xl mx-auto">
+                <details class="bg-white rounded-xl shadow-sm">
+                    <summary class="text-xl">Розгорнути Максимально Детальний Аналіз</summary>
+                    <div class="p-6 border-t border-gray-200">
+                        <h2 class="text-2xl font-bold mb-4">Оновлений Аналіз: Твоя Ідеальна Жінка</h2>
+                        <p class="mb-4 text-gray-600">Твоє уточнення про "останні градуси" кардинально збагачує картину. Це означає, що твій партнерський "магніт" (Десцендент) знаходиться не в "чистому" Водолії, а на межі зі знаком Риб. Це означає, що тобі потрібен унікальний "коктейль" з трьох, а не двох енергій.</p>
+                        
+                        <hr class="my-6">
+
+                        <h3 class="text-xl font-semibold mb-3">1. Твій "Магніт" (Чого ти прагнеш): Енергія Водолія + Риб (♒︎ + ♓︎)</h3>
+                        <p class="mb-4">Це те, що тебе приваблює на рівні "хімії". Це "подруга-геній", яка водночас є "спорідненою душею".</p>
+                        <ul class="list-disc list-inside space-y-3 mb-4">
+                            <li><strong class="text-blue-600">Від Водолія (Інтелект):</strong> Тобі життєво необхідна <strong>дружба</strong> та інтелектуальна рівність. Тебе приваблює її розум, її унікальність, її незалежність. Вона має бути не схожою на інших і не "липнути" до тебе 24/7. Вона має бути раціональною і не влаштовувати драм через дрібниці.</li>
+                            <li><strong class="text-purple-600">Від Риб (Емпатія):</strong> АЛЕ! Чистого "холодного" інтелекту Водолія тобі недостатньо. На межі з Рибами, твій "магніт" вимагає <strong>емоційної глибини, м'якості та співчуття</strong>. Тобі потрібна жінка, яка може не лише говорити з тобою, але й відчувати тебе.</li>
+                        </ul>
+
+                        <h3 class="text-xl font-semibold mb-3">2. Твоя "Потреба" (Без чого ти не зможеш): Енергія Козерога ♑︎</h3>
+                        <p class="mb-4">Це твій Місяць. Це твій "фундамент безпеки". Якщо цього не буде, стосунки, якими б "магічними" вони не були, не витримають.</p>
+                        <ul class="list-disc list-inside space-y-3 mb-4">
+                            <li><strong class="text-gray-700">Надійність і Зрілість:</strong> Вона <strong>мусить</strong> бути "дорослою". Вона тримає слово. На неї можна покластися, як на скелю. Це практична, відповідальна і емоційно зріла жінка.</li>
+                            <li><strong class="text-gray-700">Амбіції:</strong> Це "жінка-CEO". Вона має мати власні цілі, власний шлях і прагнути досягнень. Ти маєш поважати її за те, що вона *робить*, а не лише за те, ким вона є. Легковажність чи відсутність амбіцій — для тебе це "емоційний вбивця".</li>
+                        </ul>
+
+                        <h3 class="text-xl font-semibold mb-3">3. Твоя "Форма" (Що ти цінуєш): Енергія Терезів ♎︎ та Лева ♌︎</h3>
+                        <p class="mb-4">Це твій свідомий вибір (Сонце) і твоя "подача" (Асцендент).</p>
+                        <ul class="list-disc list-inside space-y-3 mb-4">
+                            <li><strong class="text-pink-600">Естетика та Пристрасть:</strong> Ти цінуєш <strong>красу</strong> (Терези) і <strong>пристрасть</strong> (Лев). Твоя жінка має бути доглянутою, естетично привабливою (це твої Терези) і водночас — <strong>сексуально активною та пристрасною</strong> (це твій Лев).</li>
+                            <li><strong class="text-pink-500">Гармонія:</strong> Ти свідомо прагнеш до гармонійного, справедливого, "красивого" партнерства "1 на 1".</li>
+                        </ul>
+                        
+                        <hr class="my-6">
+
+                        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                            <h3 class="text-xl font-bold text-amber-800 mb-2">Загальний Висновок: "Ідеальна Жінка"</h3>
+                            <p class="text-amber-700">Ти шукаєш дуже рідкісне і потужне поєднання: <strong>"Емпатична Подруга-Геній з Амбіціями CEO"</strong>. Це жінка, яка одночасно:</p>
+                            <ol class="list-decimal list-inside space-y-1 mt-3 text-amber-700">
+                                <li><strong>Інтелектуально</strong> тебе захоплює (Водолій).</li>
+                                <li><strong>Емоційно</strong> тебе відчуває (Риби).</li>
+                                <li><strong>Практично</strong> є найнадійнішим партнером (Козеріг).</li>
+                                <li><strong>Естетично</strong> красива і <strong>фізично</strong> пристрасна (Терези/Лев).</li>
+                            </ol>
+                            <p class="mt-3 font-semibold text-amber-800">Твоя планка, друже, з астрологічної точки зору, неймовірно висока. Ти шукаєш ту, хто поєднує в собі і розум, і душу, і надійність, і красу.</p>
+                        </div>
+
+                    </div>
+                </details>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-200">
+            <p class="text-sm text-gray-500">Астрологічний аналіз створено для твоїх особистих роздумів.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tabs = ['aq', 'pi', 'ca'];
+        
+        // ОНОВЛЕНИЙ ОБ'ЄКТ З КОРЕКТНИМИ ШЛЯХАМИ ТА ALT ТЕГАМИ
+        const galleryItems = {
+            suit: {
+                src: 'images/suit.jpg',
+                alt: 'Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом.'
+            },
+            casual: {
+                src: 'images/casual.jpg',
+                alt: 'Кежуал Стиль: Жінка у светрі прогулюється вулицею з кафе.'
+            },
+            home: {
+                src: 'images/home.jpg',
+                alt: 'Домашній Стиль: Жінка з чашкою кави сидить на дивані у затишній кімнаті.'
+            },
+            beach: {
+                src: 'images/beach.jpg',
+                alt: 'Пляжний Стиль: Жінка у чорному купальнику біля басейну з видом на море.'
+            },
+            evening: {
+                src: 'images/evening.jpg',
+                alt: 'Вечірній Стиль: Жінка у короткій чорній вечірній сукні на світському заході.'
+            },
+            sport: {
+                src: 'images/sport.jpg',
+                alt: 'Спортзал: Жінка у спортивному одязі в сучасному спортзалі.'
+            }
+        };
+
+        function showTab(tabId) {
+            tabs.forEach(id => {
+                document.getElementById('tab-content-' + id).style.display = 'none';
+                document.getElementById('tab-btn-' + id).classList.remove('active');
+            });
+            document.getElementById('tab-content-' + tabId).style.display = 'block';
+            document.getElementById('tab-btn-' + tabId).classList.add('active');
+        }
+
+        function showImage(styleId) {
+            const item = galleryItems[styleId];
+            document.getElementById('gallery-image').src = item.src;
+            document.getElementById('gallery-image').alt = item.alt;
+            document.getElementById('gallery-caption').innerText = item.alt;
+            
+            Object.keys(galleryItems).forEach(id => {
+                document.getElementById('gallery-btn-' + id).classList.remove('active');
+            });
+            document.getElementById('gallery-btn-' + styleId).classList.add('active');
+        }
+
+        const ctx = document.getElementById('idealProfileChart').getContext('2d');
+        const idealProfileChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Інтелект (Водолій)', 
+                    'Емпатія (Риби)', 
+                    'Надійність (Козеріг)', 
+                    'Амбіції (Козеріг)', 
+                    'Пристрасть (Лев/Терези)'
+                ],
+                datasets: [{
+                    label: 'Ідеальний Профіль',
+                    data: [10, 9, 10, 9, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(161, 98, 7, 0.2)',
+                    borderColor: 'rgb(161, 98, 7)',
+                    pointBackgroundColor: 'rgb(161, 98, 7)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(161, 98, 7)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: '#ddd'
+                        },
+                        grid: {
+                            color: '#ddd'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            },
+                            color: '#333'
+                        },
+                        ticks: {
+                            backdropColor: '#fdfbf8',
+                            color: '#777',
+                            stepSize: 2,
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Встановлюємо 'suit' як активний за замовчуванням
+            showImage('suit');
+        });
+    </script>
+
+</body>
+</html>
