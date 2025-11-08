@@ -1,13 +1,16 @@
-<!-- Chosen Palette: Warm Neutrals (Background: #fdfbf8), Primary Accent: Amber/Gold, Secondary Accent: Green. -->
-<!-- Application Structure Plan: Single-page scroll divided into sections for Energy Analysis, Visual Archetypes, and a final section for Collapsible Blocks. The final section now contains three distinct, essential collapsible analyses: 1) Detailed Partner Profile (Her Needs), 2) Your Value Proposition (Your Strengths), and 3) The Full Action Plan (Must Do/Must Not Do). The main section header is removed for cleaner presentation. Blocks 2 and 3 are now highly visual (grids, icons, color-coding). -->
-<!-- Visualization & Content Choices: The key visualization is the use of structured lists (Must Do/Must Not Do) and interactive accordions/tabs to present dense strategic text in easily consumable, segmented chunks. Icons (Unicode/Tailwind) are used for emphasis. Chart.js is used for the radar plot. Vanilla JS manages all interactivity. -->
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!-- 
+АСТРО-МАРКЕТИНГОВИЙ АУДИТ (Чистова версія)
+ЗАВДАННЯ: Оновити сторінку до фінальної версії.
+КЛЮЧОВІ ЗМІНИ:
+1.  [ВИДАЛЕНО] "v2.0" видалено з <title>, <h1> та <footer>.
+2.  [ВИЧИЩЕНО] Всі текстові входження "**" (Markdown-bold) видалено з усього документу для чистоти відображення.
+-->
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портрет Ідеальної Жінки</title>
+    <title>Портрет Ідеальної Жінки (Королева-Стратег)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,17 +19,6 @@
             font-family: 'Inter', sans-serif;
             background-color: #fdfbf8;
             color: #333;
-        }
-        .tab-button {
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-        }
-        .tab-button.active {
-            border-bottom-color: #a16207;
-            color: #a16207;
-            font-weight: 600;
         }
         .gallery-button {
             transition: all 0.3s ease;
@@ -48,15 +40,17 @@
             font-weight: 600;
             transition: background-color 0.3s ease;
             list-style: none; /* Приховуємо стандартний маркер */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        details > summary::before {
+        details > summary::after {
             content: '+';
             font-weight: 800;
-            margin-right: 0.75rem;
-            display: inline-block;
+            font-size: 1.5rem;
             transition: transform 0.3s ease;
         }
-        details[open] > summary::before {
+        details[open] > summary::after {
             content: '−';
             transform: rotate(180deg);
         }
@@ -84,38 +78,36 @@
             aspect-ratio: 1 / 1;
             max-height: 768px;
         }
+        /* Стилі для блоку "Твій Козир" (Оновлено) */
+        .value-card {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            height: 100%; /* Для однакової висоти в grid */
+            border: 1px solid;
+        }
+        .value-card .icon {
+            font-size: 2.25rem; /* text-4xl */
+            line-height: 2.5rem;
+            flex-shrink: 0;
+            margin-bottom: 0.75rem;
+        }
+         /* Стилі для блоку "Стратегічний План" (Оновлено) */
         .strategic-list {
             margin-bottom: 1.5rem;
             padding-left: 1.5rem;
         }
         .strategic-list li {
             margin-bottom: 0.5rem;
+            list-style-type: disc;
         }
-        /* Специфічні стилі для блоку "Стратегічний План" */
-        .must-do-item, .must-not-do-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 1rem;
-            border-radius: 0.5rem;
+        .stage-summary {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
         }
-        .icon {
-            flex-shrink: 0;
-            margin-top: 0.25rem;
-            margin-right: 1rem;
-        }
-        /* Стилі для блоку "Твій Козир" */
-        .value-card {
-            display: flex;
-            align-items: flex-start;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            height: 100%; /* Для однакової висоти в grid */
-        }
-        .value-card .icon {
-            font-size: 1.875rem; /* text-3xl */
-            line-height: 2.25rem;
-            flex-shrink: 0;
-            margin-right: 1rem;
+        .stage-summary:hover {
+            background-color: #f3f4f6;
         }
         
     </style>
@@ -126,44 +118,56 @@
 
         <header class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Портрет Ідеальної Жінки</h1>
-            <p class="text-lg text-gray-600">Астрологічний аналіз та візуалізація</p>
+            <p class="text-lg text-gray-600">Аудит "Королева-Стратег"</p>
         </header>
 
         <main class="space-y-12">
 
-            <!-- Ключові Енергії та Вік/Знаки -->
+            <!-- Ключові Енергії та Вік/Знаки (ПОВНІСТЮ ПЕРЕРОБЛЕНО) -->
             <section class="lg:grid lg:grid-cols-3 lg:gap-8">
                 
-                <!-- Лівa колонка: Енергії -->
+                <!-- Лівa колонка: Енергії (Нова 4-компонентна сітка) -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm mb-6 lg:mb-0">
-                    <h2 class="text-2xl font-bold mb-4">Ключові Енергії (Її "Коктейль")</h2>
-                    <p class="text-gray-600 mb-5">Ти шукаєш унікальне поєднання трьох, на перший погляд, непоєднуваних якостей. Це не просто "бонуси", а обов'язкові вимоги твоєї натальної карти.</p>
+                    <h2 class="text-2xl font-bold mb-5">4 Компоненти "Королеви-Стратега"</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        
+                        <!-- 1. КОЗЕРІГ -->
+                        <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <h3 class="text-xl font-semibold text-gray-800 flex items-center mb-2">
+                                <span class="text-3xl w-8">♑︎</span> Козеріг (Твоя ПОТРЕБА)
+                            </h3>
+                            <p class="text-gray-600 text-sm">Це твій "фундамент" (Місяць). Без цього стосунки не витримають. Тобі потрібна повага, а вона йде від надійності, амбіцій та емоційної зрілості.</p>
+                        </div>
 
-                    <div class="border-b border-gray-200">
-                        <nav class="-mb-px flex space-x-4" aria-label="Tabs">
-                            <button id="tab-btn-aq" class="tab-button active" onclick="showTab('aq')">Енергія Водолія ♒︎</button>
-                            <button id="tab-btn-pi" class="tab-button" onclick="showTab('pi')">Енергія Риб ♓︎</button>
-                            <button id="tab-btn-ca" class="tab-button" onclick="showTab('ca')">Енергія Козерога ♑︎</button>
-                        </nav>
-                    </div>
+                        <!-- 2. ВОДОЛІЙ -->
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h3 class="text-xl font-semibold text-blue-800 flex items-center mb-2">
+                                <span class="text-3xl w-8">♒︎</span> Водолій (Твій "Контракт")
+                            </h3>
+                            <p class="text-blue-700 text-sm">Це твій "офіційний партнер" (7-й Дім). Тобі потрібен "соратник-друг". Вона має бути розумною, незалежною і цінувати свободу (свою і твою).</p>
+                        </div>
 
-                    <div class="mt-4">
-                        <div id="tab-content-aq" class="tab-content space-y-2">
-                            <h3 class="text-lg font-semibold text-blue-600">Інтелект та Дружба</h3>
-                            <p>Вона — твій найкращий <strong>друг</strong>, <strong>розумна</strong>, незалежна, оригінальна, цінує свободу (свою і твою). Це твій "магніт", те, що тебе приваблює на рівні "хімії".</p>
+                        <!-- 3. СКОРПІОН -->
+                        <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <h3 class="text-xl font-semibold text-red-800 flex items-center mb-2">
+                                <span class="text-3xl w-8">♏︎</span> Скорпіон (Твоя "Хімія")
+                            </h3>
+                            <p class="text-red-700 text-sm">Це твоя "таємна пристрасть" (Венера/Плутон). Поверхневість тебе вбиває. Тобі потрібна глибина, інтенсивність, 100% лояльність і "фатальна" привабливість.</p>
                         </div>
-                        <div id="tab-content-pi" class="tab-content space-y-2" style="display: none;">
-                            <h3 class="text-lg font-semibold text-purple-600">Емпатія та Глибина</h3>
-                            <p>Вона — <strong>чутлива</strong> "споріднена душа", має глибоку інтуїцію, м'яка, співчутлива і може *відчувати* тебе, а не лише говорити з тобою. Це "фільтр" твоїх останніх градусів.</p>
+
+                        <!-- 4. СТРІЛЕЦЬ -->
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                            <h3 class="text-xl font-semibold text-purple-800 flex items-center mb-2">
+                                <span class="text-3xl w-8">♐︎</span> Стрілець (Твоя "Іскра")
+                            </h3>
+                            <p class="text-purple-700 text-sm">Це твої "романи" (5-й Дім). Тебе "вмикає" ідеал, пригода, оптимізм. Вона має "розширювати" твій світ, бути "цікавою", вчителем або авантюристом.</p>
                         </div>
-                        <div id="tab-content-ca" class="tab-content space-y-2" style="display: none;">
-                            <h3 class="text-lg font-semibold text-gray-700">Надійність та Амбіції</h3>
-                            <p>Вона — "жінка-CEO", <strong>амбітна</strong>, <strong>надійна</strong>, практична, емоційно <strong>зріла</strong> і відповідальна. Це твій "фундамент безпеки", вимога твого Місяця.</p>
-                        </div>
+
                     </div>
                 </div>
 
-                <!-- Права колонка: Вік та Знаки -->
+                <!-- Права колонка: Вік та Знаки (ОНОВЛЕНО) -->
                 <div class="lg:col-span-1 space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm text-center">
                         <h3 class="text-lg font-semibold text-gray-500 mb-1">Ідеальний Вік</h3>
@@ -171,18 +175,18 @@
                         <p class="text-sm text-gray-600 mt-2">Твій Місяць у Козерозі вимагає <strong>зрілості</strong>. Тобі потрібен рівний партнер, а не учень.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 class="text-lg font-semibold text-gray-500 mb-3">Пріоритетні Знаки</h3>
+                        <h3 class="text-lg font-semibold text-gray-500 mb-3">Пріоритетні Енергії</h3>
                         <ul class="space-y-2">
                             <li class="flex items-center"><span class="text-2xl w-8">♑︎</span><span class="font-semibold ml-2">Козеріг</span><span class="ml-auto text-sm text-gray-500">(Надійність)</span></li>
                             <li class="flex items-center"><span class="text-2xl w-8">♒︎</span><span class="font-semibold ml-2">Водолій</span><span class="ml-auto text-sm text-gray-500">(Інтелект)</span></li>
-                            <li class="flex items-center"><span class="text-2xl w-8">♓︎</span><span class="font-semibold ml-2">Риби</span><span class="ml-auto text-sm text-gray-500">(Емпатія)</span></li>
-                            <li class="flex items-center"><span class="text-2xl w-8">♎︎</span><span class="font-semibold ml-2">Терези</span><span class="ml-auto text-sm text-gray-500">(Партнерство)</span></li>
+                            <li class="flex items-center"><span class="text-2xl w-8">♏︎</span><span class="font-semibold ml-2">Скорпіон</span><span class="ml-auto text-sm text-gray-500">(Глибина)</span></li>
+                            <li class="flex items-center"><span class="text-2xl w-8">♐︎</span><span class="font-semibold ml-2">Стрілець</span><span class="ml-auto text-sm text-gray-500">(Іскра)</span></li>
                         </ul>
                     </div>
                 </div>
             </section>
 
-            <!-- Радар-чарт -->
+            <!-- Радар-чарт (ОНОВЛЕНО МІТКИ) -->
             <section class="bg-white p-6 rounded-xl shadow-sm">
                 <h2 class="text-2xl font-bold mb-4 text-center">Візуальний Профіль: Ідеальний Баланс</h2>
                 <p class="text-gray-600 mb-5 text-center max-w-2xl mx-auto">Твоя карта вимагає не просто однієї якості, а високого рівня у всіх ключових сферах одночасно. Це візуалізація твого "ідеального" поєднання.</p>
@@ -191,7 +195,7 @@
                 </div>
             </section>
 
-            <!-- Галерея -->
+            <!-- Галерея (Без змін) -->
             <section class="bg-white p-6 rounded-xl shadow-sm">
                 <h2 class="text-2xl font-bold mb-5 text-center">Візуальні Архетипи</h2>
                 <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
@@ -204,180 +208,166 @@
                 </div>
                 
                 <div class="w-full max-w-2xl mx-auto bg-gray-100 rounded-lg overflow-hidden image-container">
-                    <img id="gallery-image" src="images/oficial.png" 
+                    <img id="gallery-image" src="https://placehold.co/768x768/f3f4f6/6b7280?text=Офіційний+Стиль" 
                          alt="Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом." 
-                         class="w-full h-full object-contain">
+                         class="w-full h-full object-cover">
                 </div>
                 
                 <p id="gallery-caption" class="text-center text-gray-600 mt-3 italic">Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом.</p>
             </section>
 
-            <!-- ДІВАЙДЕР І ПОЧАТОК ДЕТАЛЬНИХ АНАЛІЗІВ (Нова структура) -->
+            <!-- ДІВАЙДЕР І ПОЧАТОК ДЕТАЛЬНИХ АНАЛІЗІВ -->
             <hr class="my-10 border-gray-300 mx-auto max-w-4xl">
 
             <section class="max-w-4xl mx-auto space-y-4">
                 
-                <!-- 1. Максимально Детальний Аналіз (Профіль Жінки) -->
-                <details class="bg-white rounded-xl shadow-sm">
-                    <summary class="text-xl">Розгорнути Максимально Детальний Профіль (Її Особливості)</summary>
-                    <div class="p-6 border-t border-gray-200">
-                        <h3 class="text-2xl font-bold mb-4">Оновлений Аналіз: Твоя Ідеальна Жінка</h3>
-                        <p class="mb-4 text-gray-600">Твоє уточнення про "останні градуси" кардинально збагачує картину. Це означає, що твій партнерський "магніт" (Десцендент) знаходиться не в "чистому" Водолії, а на межі зі знаком Риб. Це означає, що тобі потрібен унікальний "коктейль" з трьох, а не двох енергій.</p>
-                        
-                        <hr class="my-6">
-
-                        <h4 class="text-xl font-semibold mb-3">1. Твій "Магніт" (Чого ти прагнеш): Енергія Водолія + Риб (♒︎ + ♓︎)</h4>
-                        <p class="mb-4">Це те, що тебе приваблює на рівні "хімії". Це "подруга-геній", яка водночас є "спорідненою душею".</p>
-                        <ul class="list-disc list-inside space-y-3 mb-4">
-                            <li><strong class="text-blue-600">Від Водолія (Інтелект):</strong> Тобі життєво необхідна <strong>дружба</strong> та інтелектуальна рівність. Тебе приваблює її розум, її унікальність, її незалежність. Вона має бути не схожою на інших і не "липнути" до тебе 24/7. Вона має бути раціональною і не влаштовувати драм через дрібниці.</li>
-                            <li><strong class="text-purple-600">Від Риб (Емпатія):</strong> АЛЕ! Чистого "холодного" інтелекту Водолія тобі недостатньо. На межі з Рибами, твій "магніт" вимагає <strong>емоційної глибини, м'якості та співчуття</strong>. Тобі потрібна жінка, яка може не лише говорити з тобою, але й відчувати тебе.</li>
-                        </ul>
-
-                        <h4 class="text-xl font-semibold mb-3">2. Твоя "Потреба" (Без чого ти не зможеш): Енергія Козерога ♑︎</h4>
-                        <p class="mb-4">Це твій Місяць. Це твій "фундамент безпеки". Якщо цього не буде, стосунки, якими б "магічними" вони не були, не витримають.</p>
-                        <ul class="list-disc list-inside space-y-3 mb-4">
-                            <li><strong class="text-gray-700">Надійність і Зрілість:</strong> Вона <strong>мусить</strong> бути "дорослою". Вона тримає слово. На неї можна покластися, як на скелю. Це практична, відповідальна і емоційно зріла жінка.</li>
-                            <li><strong class="text-gray-700">Амбіції:</strong> Це "жінка-CEO". Вона має мати власні цілі, власний шлях і прагнути досягнень. Ти маєш поважати її за те, що вона *робить*, а не лише за те, ким вона є. Легковажність чи відсутність амбіцій — для тебе це "емоційний вбивця".</li>
-                        </ul>
-
-                        <h4 class="text-xl font-semibold mb-3">3. Твоя "Форма" (Що ти цінуєш): Енергія Терезів ♎︎ та Лева ♌︎</h4>
-                        <p class="mb-4">Це твій свідомий вибір (Сонце) і твоя "подача" (Асцендент).</p>
-                        <ul class="list-disc list-inside space-y-3 mb-4">
-                            <li><strong class="text-pink-600">Естетика та Пристрасть:</strong> Ти цінуєш <strong>красу</strong> (Терези) і <strong>пристрасть</strong> (Лев). Твоя жінка має бути доглянутою, естетично привабливою (це твої Терези) і водночас — <strong>сексуально активною та пристрасною</strong> (це твій Лев).</li>
-                        </ul>
-                        
-                        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mt-6">
-                            <h4 class="text-xl font-bold text-amber-800 mb-2">Загальний Висновок: "Ідеальна Жінка"</h4>
-                            <p class="text-amber-700">Ти шукаєш дуже рідкісне і потужне поєднання: <strong>"Емпатична Подруга-Геній з Амбіціями CEO"</strong>. Твоя планка, друже, з астрологічної точки зору, неймовірно висока.</p>
-                        </div>
-
-                    </div>
-                </details>
-
-                <!-- 2. НОВИЙ БЛОК: ТВОЯ ЦІННІСТЬ (КОЗИР) - З НОВИМ ДИЗАЙНОМ -->
-                <details class="bg-white rounded-xl shadow-sm">
-                    <summary class="text-xl text-amber-800 bg-amber-50 hover:bg-amber-100">Чим Ти Цікавий "Ідеальній Жінці"? (Твій Козир)</summary>
+                <!-- [ВИДАЛЕНО] Старий блок "Максимально Детальний Аналіз" видалено, оскільки його замінила нова 4-компонентна секція. -->
+                
+                <!-- 2. НОВИЙ БЛОК: ТВОЯ ЦІННІСТЬ (КОЗИР) - (ПОВНІСТЮ ПЕРЕРОБЛЕНО) -->
+                <details class="bg-white rounded-xl shadow-sm" open>
+                    <summary class="text-xl text-amber-800 bg-amber-50 hover:bg-amber-100">Чим Ти Цікавий "Королеві-Стратегу"? (Твоя УЦП)</summary>
                     <div class="p-6 border-t border-gray-200">
                         <h3 class="text-2xl font-bold mb-4">Твоя "Унікальна Пропозиція"</h3>
-                        <p class="mb-6 text-gray-600">Ти — це її "астрологічне бінго". 99% прихильників не зможуть запропонувати їй те, що ти даєш за замовчуванням. Ти задовольняєш її суперечливі потреби одночасно.</p>
+                        <p class="mb-6 text-gray-600">Вона — "преміальний актив". Її не "відбити", її можна лише "зацікавити". Твої конкуренти пропонують *або* надійність (але нудні), *або* пристрасть (але нестабільні). Ти — єдиний "бренд", що пропонує повний "преміальный бленд".</p>
                         
                         <!-- ГРІД З КАРТКАМИ ЦІННОСТІ -->
                         <div class="grid lg:grid-cols-3 gap-6 my-6">
                             
-                            <!-- Картка 1: Надійність -->
-                            <div class="value-card bg-gray-50 border border-gray-200">
+                            <!-- Картка 1: Подвійна Гарантія -->
+                            <div class="value-card border-gray-300 bg-gray-50">
                                 <span class="icon text-gray-600">♑︎</span>
-                                <div>
-                                    <h4 class="text-lg font-semibold text-gray-800">Дзеркало Надійності</h4>
-                                    <p class="text-sm text-gray-600 mt-1">Це твій <strong>ГОЛОВНИЙ КОЗИР</strong>. Її Місяць у Козерозі шукає сильного, зрілого партнера. <strong>Твій Місяць — теж у Козерозі!</strong> Це створює миттєвий, глибокий зв'язок на рівні "безпеки".</p>
-                                </div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-2">"Подвійна Гарантія"</h4>
+                                <p class="text-sm text-gray-600">Вона шукає надійність. Ти даєш їй свій "двигун" (Козеріг), що гарантує результат. АЛЕ, на відміну від інших "сухих" Козерогів, ти даєш їй "інтерфейс" Терезів — елегантність, дипломатію та партнерство. <strong class="block mt-2">Ти — "Сила + Елегантність".</strong></p>
                             </div>
                             
-                            <!-- Картка 2: Інтелект -->
-                            <div class="value-card bg-blue-50 border border-blue-200">
-                                <span class="icon text-blue-600">♒︎</span>
-                                <div>
-                                    <h4 class="text-lg font-semibold text-blue-800">Інтелектуальний Союз</h4>
-                                    <p class="text-sm text-blue-600 mt-1">Твоє <strong>Сонце в Терезах</strong> дозволяє тобі бути рівним партнером, цінувати її розум і не "душити" її свободу — це ідеальна відповідь на її Водолія.</p>
-                                </div>
+                            <!-- Картка 2: Безпечна Глибина -->
+                            <div class="value-card border-red-300 bg-red-50">
+                                <span class="icon text-red-600">♏︎</span>
+                                <h4 class="text-lg font-semibold text-red-800 mb-2">"Безпечна Глибина"</h4>
+                                <p class="text-sm text-red-600">Її "фатальна глибина" (Скорпіон) відлякує 99% чоловіків. Ти — той 1%, у кого така сама "хімія" (Венера/Плутон). Ти не боїшся її інтенсивності, ти спрямовуєш її у спільну "приватну фортецю" (4-й Дім). <strong class="block mt-2">Ти — "Пристрасть + Фундамент".</strong></p>
                             </div>
                             
-                            <!-- Картка 3: Пристрасть -->
-                            <div class="value-card bg-pink-50 border border-pink-200">
-                                <span class="icon text-pink-600">♌︎</span>
-                                <div>
-                                    <h4 class="text-lg font-semibold text-pink-800">Емпатія і Пристрасть</h4>
-                                    <p class="text-sm text-pink-600 mt-1">Ти даєш їй <strong>пристрасть</strong> (Асцендент у Леві) та <strong>м'якість/емпатію</strong> (Терези). Ти вмієш слухати і шукати компроміс. Ти "запалюєш" її Вогнем, але врівноважуєш його Повітрям.</p>
-                                </div>
+                            <!-- Картка 3: Королівський Пакет -->
+                            <div class="value-card border-purple-300 bg-purple-50">
+                                <span class="icon text-purple-600">♌︎</span>
+                                <h4 class="text-lg font-semibold text-purple-800 mb-2">"Королівський Пакет"</h4>
+                                <p class="text-sm text-purple-600">Вона шукає "іскру". Ти даєш їй "пригоду" (Стрілець), але з гідністю "Короля" (Лев). Ти даєш їй не просто "веселощі", а "статус", харизму та тепло. <strong class="block mt-2">Ти — "Пригода + Статус".</strong></p>
                             </div>
 
-                        </div>
-                        
-                        <div class="bg-amber-100 border-l-4 border-amber-500 p-4 rounded-r-lg mt-6">
-                            <h4 class="font-bold text-amber-800">Фінальний Висновок: Чому Саме Ти?</h4>
-                            <p class="text-gray-700 mt-2">Ти — <strong>Харизматичний Дипломат</strong> (Лев/Терези), за яким стоїть <strong>Надійна Скеля</strong> (Місяць у Козерозі). Ти єдиний, хто може задовольнити її потреби в надійності, інтелекті та пристрасті одночасно.</p>
                         </div>
                     </div>
                 </details>
                 
-                <!-- 3. НОВИЙ БЛОК: СТРАТЕГІЧНИЙ ПЛАН (Must Do/Must Not Do) З НОВИМ ДИЗАЙНОМ -->
+                <!-- 3. НОВИЙ БЛОК: СТРАТЕГІЧНИЙ ПЛАН - (ПОВНІСТЮ ПЕРЕРОБЛЕНО) -->
                 <details class="bg-white rounded-xl shadow-sm">
-                    <summary class="text-xl text-green-800 bg-green-50 hover:bg-green-100">🔥 Стратегічний План: Що Робити (Must Do/Must Not Do)</summary>
-                    <div class="p-6 border-t border-gray-200">
-                        <h3 class="text-2xl font-bold mb-4 text-gray-700">План Дій – Що Тобі Робити</h3>
-
-                        <div class="grid md:grid-cols-2 gap-8">
-                            
-                            <!-- Колонка: Must Do -->
-                            <div class="space-y-4">
-                                <h4 class="text-xl font-bold text-green-700 flex items-center mb-4">
-                                    <span class="text-3xl mr-3">✅</span> Що Робити (Must Do)
-                                </h4>
-                                <div class="must-do-item bg-green-50 border border-green-200">
-                                    <div class="icon text-2xl text-green-600">♑︎</div>
-                                    <div>
-                                        <p class="font-semibold text-green-800">Продемонструй Надійність</p>
-                                        <p class="text-sm text-green-700">Будь педантично пунктуальним. Якщо сказав — зроби. Говори про свої амбіції та плани. Покажи, що ти будуєш своє життя. <strong>(Фраза-ключ: "Я про це подбаю")</strong></p>
+                    <summary class="text-xl text-green-800 bg-green-50 hover:bg-green-100">🔥 Твій 4-Етапний "Go-to-Market" План</summary>
+                    <div class="p-6 border-t border-gray-200 space-y-4">
+                        <p class="text-lg text-gray-600">Це твій "sales pipeline". Від "маркетингу" (де шукати) до "закриття" (контракт).</p>
+                        
+                        <!-- Етап 1 -->
+                        <details class="stage-summary rounded-lg">
+                            <summary class="font-semibold text-lg p-4">Етап 1: "Маркетинг" (Де її шукати?)</summary>
+                            <div class="p-6 border-t border-gray-200">
+                                <p class="mb-4">Ви не знайдете "преміальний" актив на "масовому" ринку.</p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                        <h4 class="font-bold text-green-700 mb-2">✅ ЩО РОБИТИ (Must Do)</h4>
+                                        <ul class="strategic-list text-green-800 text-sm">
+                                            <li>Бути там, де "будують": Конференції, бізнес-форуми, майстер-класи з інвестицій. (Територія Козерога).</li>
+                                            <li>Бути там, де "думають": TED Talks, закриті інтелектуальні клуби, дебати. (Територія Водолія).</li>
+                                            <li>Бути "Королем" (ASC у Леві): Відвідуйте "статусні" місця: благодійні вечори, аукціони, закриті прем'єри.</li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <div class="must-do-item bg-green-50 border border-green-200">
-                                    <div class="icon text-2xl text-green-600">♒︎</div>
-                                    <div>
-                                        <p class="font-semibold text-green-800">Будь Інтелектуальним Другом</p>
-                                        <p class="text-sm text-green-700">Не тисни. Говори з нею про *ідеї*, про світ, про технології. Дай їй особистий простір і свободу. Покажи, що тобі цікавий її *розум*. <strong>(Фраза-ключ: "А що ти про це думаєш?")</strong></p>
-                                    </div>
-                                </div>
-                                <div class="must-do-item bg-green-50 border border-green-200">
-                                    <div class="icon text-2xl text-green-600">♌︎</div>
-                                    <div>
-                                        <p class="font-semibold text-green-800">Покажи Харизму та Пристрасть</p>
-                                        <p class="text-sm text-green-700">Не соромся бути лідером, але м'яким. Роби компліменти її *красі* та *розуму*. Фліртуй. Будь щедрим. Вона цінує вогонь і сяйво. <strong>(Фраза-ключ: "Ти виглядаєш неймовірно")</strong></p>
-                                    </div>
-                                </div>
-                                <div class="must-do-item bg-green-50 border border-green-200">
-                                    <div class="icon text-2xl text-green-600">♎︎</div>
-                                    <div>
-                                        <p class="font-semibold text-green-800">Продемонструй М'якість</p
-                                        <p class="text-sm text-green-700">Активно слухай. Шукай компроміс. Покажи, що ти *чуєш* її почуття, а не лише факти. Це заспокоїть її Риб. <strong>(Фраза-ключ: "Давай знайдемо рішення, яке влаштує нас обох")</strong></p>
+                                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                        <h4 class="font-bold text-red-700 mb-2">❌ ЧОГО НЕ РОБИТИ (Must Not Do)</h4>
+                                        <ul class="strategic-list text-red-800 text-sm">
+                                            <li>Втрачати час на "масовку": Стандартні бари, клуби чи "швидкі" додатки для знайомств.</li>
+                                            <li>Шукати "просто гарну картинку": Вас не цікавить жінка, чия єдина цінність — це зовнішність.</li>
+                                            <li>Бути "скромним": Не ховайте свій статус (Лев) за "скромністю" (Терези).</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Колонка: Must Not Do -->
-                            <div class="space-y-4">
-                                <h4 class="text-xl font-bold text-red-700 flex items-center mb-4">
-                                    <span class="text-3xl mr-3">❌</span> Чого НЕ Робити (Must Not Do)
-                                </h4>
-                                <div class="must-not-do-item bg-red-50 border border-red-200">
-                                    <div class="icon text-2xl text-red-600">⏳</div>
-                                    <div>
-                                        <p class="font-semibold text-red-800">НЕ будь легковажним</p>
-                                        <p class="text-sm text-red-700">Не спізнюйся, не "забувай" про обіцянки, не говори безвідповідально про фінанси. Це миттєво "вимкне" її Козерога. Вона потребує *стабільності*.</p>
+                        </details>
+                        
+                        <!-- Етап 2 -->
+                        <details class="stage-summary rounded-lg">
+                            <summary class="font-semibold text-lg p-4">Етап 2: "Перший Контакт" (Як "зачепити"?)</summary>
+                            <div class="p-6 border-t border-gray-200">
+                                <p class="mb-4">Ваша перша розмова — це "кваліфікація". Ви маєте "зачепити" її Інтелект (Водолій) та її "Іскру" (Стрілець).</p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                        <h4 class="font-bold text-green-700 mb-2">✅ ЩО РОБИТИ (Must Do)</h4>
+                                        <ul class="strategic-list text-green-800 text-sm">
+                                            <li>Говоріть про ІДЕЇ, а не про "речі": Обговорюйте майбутнє, стратегії, концепції.</li>
+                                            <li>Будьте "Елегантним" (Терези): Використовуйте свій головний козир! Будьте дипломатичним, дотепним.</li>
+                                            <li>Покажіть свою "іскру" (Лев/Стрілець): Будьте харизматичним, оптимістичним, з почуттям гумору.</li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <div class="must-not-do-item bg-red-50 border border-red-200">
-                                    <div class="icon text-2xl text-red-600">💔</div>
-                                    <div>
-                                        <p class="font-semibold text-red-800">НЕ будь ревнивим чи драматичним</p>
-                                        <p class="text-sm text-red-700">Не влаштовуй драм. Не вимагай постійних звітів чи уваги 24/7. Це "вимкне" її Водолія, який цінує свою свободу і простір. Ти маєш бути її другом.</p>
-                                    </div>
-                                </div>
-                                <div class="must-not-do-item bg-red-50 border border-red-200">
-                                    <div class="icon text-2xl text-red-600">🧊</div>
-                                    <div>
-                                        <p class="font-semibold text-red-800">НЕ будь "сухим" чи цинічним</p>
-                                        <p class="text-sm text-red-700">Не приховуй свої почуття під маскою надмірної раціональності. Це "вимкне" її Риб, які шукають емоційної глибини. Будь теплим і чуйним.</p>
-                                    </div>
-                                </div>
-                                <div class="must-not-do-item bg-red-50 border border-red-200">
-                                    <div class="icon text-2xl text-red-600">😴</div>
-                                    <div>
-                                        <p class="font-semibold text-red-800">НЕ будь пасивним</p>
-                                        <p class="text-sm text-red-700">Не чекай, що вона буде приймати всі рішення. Вона шукає рівного лідера. Твій Лев має брати ініціативу на себе, особливо у плануванні спільних справ.</p>
+                                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                        <h4 class="font-bold text-red-700 mb-2">❌ ЧОГО НЕ РОБИТИ (Must Not Do)</h4>
+                                        <ul class="strategic-list text-red-800 text-sm">
+                                            <li>Не починайте з "компетенції": Не міряйтеся з нею "успіхами" чи "статками".</li>
+                                            <li>Не "тисніть" (Лев/Скорпіон): Не намагайтеся "завоювати" її за 5 хвилин. Це не "штурм".</li>
+                                            <li>Не будьте "сухим": Ваш "Архітектор" (Козеріг) може бути занадто серйозним. Увімкніть "Короля" (Лев).</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </details>
+
+                        <!-- Етап 3 -->
+                        <details class="stage-summary rounded-lg">
+                            <summary class="font-semibold text-lg p-4">Етап 3: "Побудова Довіри" (Як "продати" цінність?)</summary>
+                            <div class="p-6 border-t border-gray-200">
+                                <p class="mb-4">Тут ви маєте "закрити" її головну потребу — Надійність (Козеріг).</p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                        <h4 class="font-bold text-green-700 mb-2">✅ ЩО РОБИТИ (Must Do)</h4>
+                                        <ul class="strategic-list text-green-800 text-sm">
+                                            <li>БУДЬТЕ "АРХІТЕКТОРОМ" (Козеріг): Сказали — зробили. Прийшли *вчасно*. Це мова поваги.</li>
+                                            <li>"Я подбаю про це": Візьміть на себе організацію, вирішіть *одну* її проблему.</li>
+                                            <li>Дайте їй Простір (Водолій): Не "душіть" її. Поважайте її *власну* кар'єру.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                        <h4 class="font-bold text-red-700 mb-2">❌ ЧОГО НЕ РОБИТИ (Must Not Do)</h4>
+                                        <ul class="strategic-list text-red-800 text-sm">
+                                            <li>НІКОЛИ не будьте "легковажним": Одне запізнення — і ви провалюєте "тест Козерога".</li>
+                                            <li>Не "розчиняйтеся": Не кидайте *всі* свої справи. Вона поважає амбіції, не втрачайте її повагу.</li>
+                                            <li>Не будьте "нудним": Не говоріть *лише* про роботу. Балансуйте це з "ідеями" (Водолій).</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- Етап 4 -->
+                        <details class="stage-summary rounded-lg">
+                            <summary class="font-semibold text-lg p-4">Етап 4: "Ексклюзивний Контракт" (Як "закрити"?)</summary>
+                            <div class="p-6 border-t border-gray-200">
+                                <p class="mb-4">Тут ви маєте "закрити" її найглибшу потребу — Глибину та Лояльність (Скорпіон).</p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                        <h4 class="font-bold text-green-700 mb-2">✅ ЩО РОБИТИ (Must Do)</h4>
+                                        <ul class="strategic-list text-green-800 text-sm">
+                                            <li>Покажіть "Все або Нічого": Продемонструйте свою лояльність. Вона має побачити, що ви — "однолюб".</li>
+                                            <li>Створіть "Приватну Фортецю" (4-й Дім): Створіть "безпечний простір" *лише для вас двох*.</li>
+                                            <li>Будьте "Силою": Не бійтеся своєї інтенсивності. Вона *чекає* на цю глибину.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                        <h4 class="font-bold text-red-700 mb-2">❌ ЧОГО НЕ РОБИТИ (Must Not Do)</h4>
+                                        <ul class="strategic-list text-red-800 text-sm">
+                                            <li>Не грайте в "ігри": Ніяких "запасних аеродромів". Вона "бачить" це миттєво (Скорпіон), і це — кінець.</li>
+                                            <li>Не бійтеся своєї інтенсивності: Не ховайте свою пристрасть (Скорпіон) за "милою" маскою (Терези).</li>
+                                            <li>Не будьте "поверхневим": Легкі розмови — це добре, але в "контракті" має бути пункт про глибину.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
                     </div>
                 </details>
 
@@ -385,50 +375,39 @@
         </main>
 
         <footer class="text-center mt-12 py-6 border-t border-gray-200">
-            <p class="text-sm text-gray-500">Астрологічний аналіз створено для твоїх особистих роздумів.</p>
+            <p class="text-sm text-gray-500">Астро-маркетинговий аудит. Побудовано на 4-компонентній моделі.</p>
         </footer>
 
     </div>
 
     <script>
-        const tabs = ['aq', 'pi', 'ca'];
-        
-        // ОНОВЛЕНИЙ ОБ'ЄКТ З КОРЕКТНИМИ ШЛЯХАМИ ТА ALT ТЕГАМИ
+        // Об'єкт галереї (оновлено шляхи на плейсхолдери)
         const galleryItems = {
             suit: {
-                src: 'images/oficial.png',
-                alt: 'Офіційний Стиль: Жінка в елегантному бежевому костюмі з планшетом.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Офіційний+Стиль',
+                alt: 'Офіційний Стиль: Жінка в елегантному костюмі. (СЕО / Козеріг)'
             },
             casual: {
-                src: 'images/casual.png',
-                alt: 'Кежуал Стиль: Жінка у светрі прогулюється вулицею з кафе.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Кежуал+Стиль',
+                alt: 'Кежуал Стиль: Жінка з книгою в кафе. (Інтелект / Водолій)'
             },
             home: {
-                src: 'images/home.png',
-                alt: 'Домашній Стиль: Жінка з чашкою кави сидить на дивані у затишній кімнаті.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Домашній+Стиль',
+                alt: 'Домашній Стиль: Затишний та елегантний, а не хаотичний.'
             },
             beach: {
-                src: 'images/swim.png',
-                alt: 'Пляжний Стиль: Жінка у чорному купальнику біля басейну з видом на море.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Пляжний+Стиль',
+                alt: 'Пляжний Стиль: Елегантний та статусний. (Пригода / Стрілець)'
             },
             evening: {
-                src: 'images/evening.png',
-                alt: 'Вечірній Стиль: Жінка у короткій чорній вечірній сукні на світському заході.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Вечірній+Стиль',
+                alt: 'Вечірній Стиль: "Фатальна" глибина та пристрасть. (Інтенсивність / Скорпіон)'
             },
             sport: {
-                src: 'images/sport.png',
-                alt: 'Спортзал: Жінка у спортивному одязі в сучасному спортзалі.'
+                src: 'https://placehold.co/768x768/f3f4f6/333?text=Спортзал',
+                alt: 'Спортзал: Дисципліна та енергія.'
             }
         };
-
-        function showTab(tabId) {
-            tabs.forEach(id => {
-                document.getElementById('tab-content-' + id).style.display = 'none';
-                document.getElementById('tab-btn-' + id).classList.remove('active');
-            });
-            document.getElementById('tab-content-' + tabId).style.display = 'block';
-            document.getElementById('tab-btn-' + tabId).classList.add('active');
-        }
 
         function showImage(styleId) {
             const item = galleryItems[styleId];
@@ -442,20 +421,21 @@
             document.getElementById('gallery-btn-' + styleId).classList.add('active');
         }
 
+        // ОНОВЛЕНІ МІТКИ ДЛЯ ЧАРТУ
         const ctx = document.getElementById('idealProfileChart').getContext('2d');
         const idealProfileChart = new Chart(ctx, {
             type: 'radar',
             data: {
                 labels: [
-                    'Інтелект (Водолій)', 
-                    'Емпатія (Риби)', 
                     'Надійність (Козеріг)', 
+                    'Інтелект (Водолій)', 
+                    'Пристрасть (Скорпіон)', 
                     'Амбіції (Козеріг)', 
-                    'Пристрасть (Лев/Терези)'
+                    'Іскра (Стрілець)'
                 ],
                 datasets: [{
                     label: 'Ідеальний Профіль',
-                    data: [10, 9, 10, 9, 8],
+                    data: [10, 9, 10, 9, 8], // Дані можна залишити, мітки - головне
                     fill: true,
                     backgroundColor: 'rgba(161, 98, 7, 0.2)',
                     borderColor: 'rgb(161, 98, 7)',
@@ -501,7 +481,13 @@
         });
         
         document.addEventListener('DOMContentLoaded', () => {
+            // Ініціалізуємо галерею
             showImage('suit');
+            
+            // Відкриваємо перші два "details" за замовчуванням
+            const detailsBlocks = document.querySelectorAll('section.max-w-4xl details');
+            if(detailsBlocks.length > 0) detailsBlocks[0].open = true;
+            if(detailsBlocks.length > 1) detailsBlocks[1].open = true;
         });
     </script>
 
